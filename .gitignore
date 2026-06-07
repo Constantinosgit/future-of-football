@@ -1,0 +1,16 @@
+# Original screenshots with the orange "Local" bar — only the cropped web copies are used
+Platform/1. Competition/
+Platform/2. Team/
+Platform/3. Player/
+
+# Working/test files not needed on the live site
+tour-sample.html
+tour-options.html
+HOST_ON_GITHUB.md
+SPEAKER_NOTES.md
+START_PRESENTATION.bat
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+*.tmp

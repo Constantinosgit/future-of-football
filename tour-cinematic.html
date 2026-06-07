@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform — Cinematic Sequence</title>
+<style>
+:root{--base:#080D1A;--cyan:#06D6F5;--purple:#8B5CF6;--tprimary:#E8EEFF;--tsec:#8899BB;--border:#2D3A52;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;font-family:'Inter','Segoe UI',system-ui,sans-serif;background:#060A14;}
+#stage{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:4vh;}
+
+/* aurora */
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.aurora::before,.aurora::after{content:'';position:absolute;border-radius:50%;filter:blur(80px);opacity:.7;}
+.aurora::before{width:60vw;height:60vw;left:-10vw;top:-15vw;background:radial-gradient(circle,rgba(6,214,245,.5),transparent 60%);animation:auroraA 24s ease-in-out infinite alternate;}
+.aurora::after{width:55vw;height:55vw;right:-10vw;bottom:-15vw;background:radial-gradient(circle,rgba(139,92,246,.45),transparent 60%);animation:auroraB 30s ease-in-out infinite alternate;}
+@keyframes auroraA{0%{transform:translate(0,0)}100%{transform:translate(8vw,28vh) scale(1.1)}}
+@keyframes auroraB{0%{transform:translate(0,0) scale(1.1)}100%{transform:translate(-6vw,-24vh) scale(1.2)}}
+
+/* the tilted frame that holds each shot */
+.frame{position:relative;z-index:2;width:66vw;max-width:1080px;border-radius:14px;overflow:hidden;
+  box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(6,214,245,.3),0 0 70px rgba(6,214,245,.18);
+  transform:perspective(1700px) rotateX(7deg) rotateY(-8deg);}
+.frame .shot{width:100%;aspect-ratio:16/9;background-size:cover;background-position:center top;background-repeat:no-repeat;background-color:#0c1322;}
+/* the shot element animates in/out per slide */
+.shot.in{animation:shotIn .55s cubic-bezier(.2,.7,.3,1) both;}
+.shot.out{animation:shotOut .4s ease-in both;}
+@keyframes shotIn{from{opacity:0;transform:scale(1.08) translateY(18px)}to{opacity:1;transform:none}}
+@keyframes shotOut{from{opacity:1}to{opacity:0;transform:scale(.97)}}
+
+/* the panel below the screenshot: label + controls + dots */
+.panel{position:fixed;left:0;right:0;bottom:4.5vh;z-index:4;display:flex;flex-direction:column;align-items:center;gap:16px;}
+/* section label */
+.label{text-align:center;}
+.label .k{color:var(--cyan);font-size:13px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  opacity:0;animation:labIn .5s ease .1s both;}
+.label .t{color:var(--tprimary);font-size:26px;font-weight:800;margin-top:4px;opacity:0;animation:labIn .5s ease .2s both;}
+@keyframes labIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* === tech control bar === */
+.controls{display:flex;align-items:center;gap:10px;
+  background:rgba(15,22,41,.72);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid rgba(255,255,255,.12);border-radius:40px;padding:6px 9px;
+  box-shadow:0 14px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1);}
+.ctrl{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tprimary);
+  transition:transform .15s ease,background .15s ease,box-shadow .15s ease;}
+.ctrl:hover{background:rgba(6,214,245,.16);border-color:var(--cyan);transform:translateY(-2px);box-shadow:0 0 16px rgba(6,214,245,.4);}
+.ctrl:active{transform:scale(.92);}
+.ctrl svg{width:13px;height:13px;fill:currentColor;}
+.ctrl.play{width:40px;height:40px;background:linear-gradient(135deg,var(--cyan),var(--purple));border:none;color:#04121b;
+  box-shadow:0 8px 26px rgba(6,214,245,.5);}
+.ctrl.play:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 10px 32px rgba(6,214,245,.7);}
+.ctrl.play svg{width:17px;height:17px;}
+.counter{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--tsec);min-width:48px;text-align:center;letter-spacing:.05em;}
+
+/* progress dots */
+.dots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;max-width:60vw;}
+.dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);transition:.3s;cursor:pointer;}
+.dots i.on{background:var(--cyan);box-shadow:0 0 10px var(--cyan);width:18px;border-radius:4px;}
+
+/* intro + outro overlays */
+.card{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;background:rgba(6,10,20,.55);}
+.card h1{font-size:54px;font-weight:800;color:var(--tprimary);letter-spacing:-.02em;}
+.card .grad{background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.card p{color:var(--tsec);font-size:20px;margin-top:14px;}
+.card button{margin-top:30px;background:linear-gradient(90deg,var(--cyan),var(--purple));border:none;color:#04121b;
+  font-weight:800;font-size:17px;padding:14px 38px;border-radius:40px;cursor:pointer;box-shadow:0 10px 30px rgba(6,214,245,.4);}
+.hidden{display:none!important;}
+.hint{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:6;color:var(--tsec);font-size:13px;
+  background:rgba(8,13,26,.7);padding:5px 14px;border-radius:20px;border:1px solid var(--border);}
+
+/* ===== MOBILE ===== */
+@media(max-width:760px){
+  #stage{align-items:center;padding-top:0;}
+  .frame{width:92vw;transform:perspective(1400px) rotateX(4deg) rotateY(-4deg);} /* bigger, gentler tilt */
+  .label .k{font-size:11px;letter-spacing:.16em;}
+  .label .t{font-size:20px;}
+  .panel{bottom:3vh;gap:12px;}
+  .dots{max-width:88vw;}
+  .card h1{font-size:34px;}
+  .card p{font-size:16px;padding:0 24px;}
+  .card button{font-size:16px;padding:13px 30px;}
+}
+/* landscape phones: keep frame near top so controls fit */
+@media(max-width:920px) and (orientation:landscape){
+  #stage{align-items:flex-start;padding-top:2vh;}
+  .frame{width:64vw;}
+  .panel{bottom:1.5vh;}
+}
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+<a href="index.html" style="position:fixed;top:16px;left:16px;z-index:7;display:flex;align-items:center;gap:6px;
+  color:var(--tsec);text-decoration:none;font-size:13px;font-weight:700;background:rgba(8,13,26,.7);
+  backdrop-filter:blur(8px);padding:7px 14px;border-radius:30px;border:1px solid var(--border);transition:.2s;"
+  onmouseover="this.style.borderColor='#06D6F5';this.style.color='#E8EEFF'"
+  onmouseout="this.style.borderColor='#2D3A52';this.style.color='#8899BB'">‹ Menu</a>
+
+<div id="stage">
+  <div class="frame"><div class="shot" id="shot"></div></div>
+</div>
+
+<div class="panel" id="panel">
+  <div class="label"><div class="k" id="lk"></div><div class="t" id="lt"></div></div>
+  <div class="controls">
+    <button class="ctrl" id="prevBtn" title="Previous" aria-label="Previous">
+      <svg viewBox="0 0 24 24"><path d="M7 6h2v12H7zM10 12l9 6V6z"/></svg></button>
+    <button class="ctrl play" id="playBtn" title="Play / Pause" aria-label="Play or Pause">
+      <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      <svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <button class="ctrl" id="nextBtn" title="Next" aria-label="Next">
+      <svg viewBox="0 0 24 24"><path d="M15 6h2v12h-2zM5 6v12l9-6z"/></svg></button>
+    <span class="counter" id="counter">01 / 26</span>
+  </div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<div class="card" id="intro">
+  <h1>The <span class="grad">Platform</span></h1>
+  <p>A 60-second cinematic tour — Science of Sports</p>
+  <button onclick="start()">▶  Play tour</button>
+</div>
+<div class="card hidden" id="outro">
+  <h1>Science of <span class="grad">Sports</span></h1>
+  <p>Scan to explore the platform</p>
+  <button onclick="restart()">↻  Replay</button>
+</div>
+
+<script>
+// === the sequence: each = {img, section, title} ; grouped Competition→Team→Player ===
+const SEQ=[
+  {s:'Competition', t:'Pick any country', img:'platform/comp-01.png'},
+  {s:'Competition', t:'Live competitions', img:'platform/comp-02.png'},
+  {s:'Competition', t:'Standings', img:'platform/comp-03.png'},
+  {s:'Competition', t:'Player rankings', img:'platform/comp-04.png'},
+  {s:'Competition', t:'Top scorers', img:'platform/comp-05.png'},
+  {s:'Competition', t:'Insights', img:'platform/comp-06.png'},
+  {s:'Competition', t:'Goal analysis', img:'platform/comp-07.png'},
+  {s:'Competition', t:'Comparisons', img:'platform/comp-08.png'},
+  {s:'Competition', t:'Stats', img:'platform/comp-09.png'},
+  {s:'Competition', t:'Videos', img:'platform/comp-10.png'},
+  {s:'Competition', t:'Playlists & reports', img:'platform/comp-11.png'},
+  {s:'Team', t:'Team overview', img:'platform/team-01.png'},
+  {s:'Team', t:'Match list', img:'platform/team-02.png'},
+  {s:'Team', t:'Match analysis', img:'platform/team-03.png'},
+  {s:'Team', t:'Squad & players', img:'platform/team-04.png'},
+  {s:'Team', t:'Rankings', img:'platform/team-05.png'},
+  {s:'Team', t:'Stats', img:'platform/team-06.png'},
+  {s:'Team', t:'Compare & reports', img:'platform/team-07.png'},
+  {s:'Player', t:'Player profile', img:'platform/player-01.png'},
+  {s:'Player', t:'Match analysis', img:'platform/player-02.png'},
+  {s:'Player', t:'Videos & clips', img:'platform/player-03.png'},
+  {s:'Player', t:'Career stats', img:'platform/player-04.png'},
+  {s:'Player', t:'Performance', img:'platform/player-05.png'},
+  {s:'Player', t:'SCIOS scores', img:'platform/player-06.png'},
+  {s:'Player', t:'Comparison', img:'platform/player-07.png'},
+  {s:'Player', t:'Playlists & reports', img:'platform/player-08.png'},
+];
+const HOLD=1500; // ms each screen is shown (the "flash quick" pace)
+let i=0, timer=null, playing=false;
+const shot=document.getElementById('shot'), lk=document.getElementById('lk'), lt=document.getElementById('lt');
+const dots=document.getElementById('dots'), counter=document.getElementById('counter');
+const iconPlay=document.getElementById('iconPlay'), iconPause=document.getElementById('iconPause');
+SEQ.forEach((o,k)=>{const d=document.createElement('i'); d.onclick=()=>{stop();setPlay(false);show(k);}; dots.appendChild(d);});
+const dotEls=[...dots.children];
+SEQ.forEach(o=>{const im=new Image();im.src=o.img;}); // preload
+
+function pad(n){return String(n).padStart(2,'0');}
+function setPlay(on){ playing=on; iconPlay.style.display=on?'none':'block'; iconPause.style.display=on?'block':'none'; }
+function show(n){
+  i=(n+SEQ.length)%SEQ.length; const o=SEQ[i];
+  shot.classList.remove('in'); void shot.offsetWidth;
+  shot.style.backgroundImage=`url('${o.img}')`; shot.classList.add('in');
+  lk.textContent=o.s; lt.textContent=o.t;
+  lk.style.animation='none';lt.style.animation='none';void lk.offsetWidth;
+  lk.style.animation='';lt.style.animation='';
+  dotEls.forEach((d,k)=>d.classList.toggle('on',k===i));
+  counter.textContent=pad(i+1)+' / '+pad(SEQ.length);
+}
+function next(){ if(i>=SEQ.length-1){ setPlay(false); clearTimeout(timer); document.getElementById('outro').classList.remove('hidden'); return;} show(i+1); }
+function tick(){ clearTimeout(timer); timer=setTimeout(()=>{ if(playing){ next(); tick(); } }, HOLD); }
+function start(){ document.getElementById('intro').classList.add('hidden'); document.getElementById('outro').classList.add('hidden');
+  i=0; show(0); setPlay(true); tick(); }
+function stop(){ setPlay(false); clearTimeout(timer); }
+function toggle(){ if(playing){ stop(); } else { setPlay(true); tick(); } }
+function restart(){ start(); }
+
+// wire the on-screen buttons
+document.getElementById('playBtn').onclick=()=>{ if(document.getElementById('intro').classList.contains('hidden')){ toggle(); } else { start(); } };
+document.getElementById('nextBtn').onclick=()=>{ stop(); next(); };
+document.getElementById('prevBtn').onclick=()=>{ stop(); show(i-1); };
+
+window.addEventListener('keydown',e=>{
+  if(e.code==='Space'){ e.preventDefault(); toggle(); }
+  if(e.code==='ArrowRight'){ stop(); next(); }
+  if(e.code==='ArrowLeft'){ stop(); show(i-1); }
+  if(e.key==='r'||e.key==='R'){ restart(); }
+});
+show(0); // show first frame behind the intro card
+</script>
+</body>
+</html>

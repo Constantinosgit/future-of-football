@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyprus vs Europe — Where the Gap Really Is | Science of Sports</title>
+
+<!-- Reveal.js core + theme + Chart.js — LOCAL copies (fully offline, no internet needed) -->
+<link rel="stylesheet" href="lib/reveal.css">
+<link rel="stylesheet" href="lib/black.css" id="theme">
+<script src="lib/chart.umd.min.js"></script>
+
+<style>
+:root{
+  --base:#080D1A; --s1:#0F1629; --s2:#1A2235; --s3:#243047;
+  --border:#2D3A52; --tprimary:#E8EEFF; --tsec:#8899BB; --tmuted:#4A5A78;
+  --blue:#3B82F6; --cyan:#06D6F5; --purple:#8B5CF6; --green:#10B981;
+  --amber:#F59E0B; --red:#EF4444; --orange:#F97316;
+}
+.reveal{font-family:'Inter','Segoe UI',system-ui,sans-serif; color:var(--tprimary);}
+.reveal .slides{text-align:left;}
+/* Reveal paints solid slide backgrounds — make them transparent so the aurora shows.
+   The page itself is dark (body bg), and the aurora glows on top of that. */
+.reveal .slide-background{background-color:transparent !important;}
+.reveal .slide-background-content{opacity:0 !important;}
+/* keep image-divider slides opaque (they set their own .img-bg) */
+/* ===== animated aurora background — subtle living glow behind every slide ===== */
+.aurora{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; background:var(--base);}
+.aurora::before,.aurora::after{content:''; position:absolute; border-radius:50%;
+  filter:blur(80px); opacity:.85;}
+.aurora::before{width:60vw; height:60vw; left:-10vw; top:-15vw;
+  background:radial-gradient(circle, rgba(6,214,245,.55), transparent 60%);
+  animation:auroraA 26s ease-in-out infinite alternate;}
+.aurora::after{width:55vw; height:55vw; right:-10vw; bottom:-15vw;
+  background:radial-gradient(circle, rgba(139,92,246,.50), transparent 60%);
+  animation:auroraB 32s ease-in-out infinite alternate;}
+@keyframes auroraA{0%{transform:translate(0,0) scale(1)}50%{transform:translate(22vw,16vh) scale(1.25)}100%{transform:translate(8vw,30vh) scale(1.05)}}
+@keyframes auroraB{0%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-20vw,-14vh) scale(.9)}100%{transform:translate(-6vw,-26vh) scale(1.2)}}
+html[data-style='analyst'] .aurora::before,html[data-style='analyst'] .aurora::after{animation:none;}
+/* 16:9 LAYOUT — safe approach.
+   Reveal sizes each slide to 1280x720 and controls its display. We only style the
+   ACTIVE slide (.present) and use flex so content fills the full 720px height.
+   We do NOT set display/min-height on non-present slides (that broke navigation). */
+.reveal .slides>section{ box-sizing:border-box; padding:42px 60px; height:100%; }
+.reveal .slides>section.present{
+  display:flex; flex-direction:column; justify-content:flex-start; overflow:hidden; }
+.reveal .slides>section.present.vcenter,
+.reveal .slides>section.present.divider{ justify-content:center; }
+/* Ambient depth on the page body behind Reveal (never on slides themselves). */
+body{
+  background:
+    radial-gradient(900px 600px at 8% -10%, rgba(6,214,245,.12), transparent 60%),
+    radial-gradient(820px 560px at 105% 115%, rgba(139,92,246,.12), transparent 55%),
+    linear-gradient(160deg,#0A1120 0%, #080D1A 55%, #060A14 100%) fixed;}
+.reveal h1,.reveal h2,.reveal h3{color:var(--tprimary); font-weight:800; letter-spacing:-.02em; text-transform:none;}
+.reveal h1{font-size:2.3em; line-height:1.05; margin:0 0 .25em;}
+.reveal h2{font-size:1.55em; line-height:1.12; margin:0 0 .25em;}
+.reveal h3{font-size:1.1em; color:var(--cyan); font-weight:700; margin:0 0 .2em;}
+.reveal p,.reveal li{color:var(--tsec); font-size:.74em; line-height:1.4; margin:.2em 0;}
+.reveal .backgrounds{background:transparent;}
+.reveal .slide-number{color:var(--tmuted);}
+
+.kicker{display:inline-flex; align-items:center; gap:9px; color:var(--cyan); font-size:.58em;
+  font-weight:700; letter-spacing:.18em; text-transform:uppercase; margin-bottom:.5em;
+  padding:5px 14px; border-radius:999px; align-self:flex-start;
+  background:rgba(6,214,245,.08); border:1px solid rgba(6,214,245,.25);
+  box-shadow:0 0 24px rgba(6,214,245,.12);}
+.kicker::before{content:''; width:7px; height:7px; border-radius:50%; background:var(--cyan);
+  box-shadow:0 0 10px var(--cyan); animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.num-mono{font-family:'JetBrains Mono','Courier New',monospace;}
+/* gradient accent text */
+.grad{background:linear-gradient(100deg,var(--cyan),var(--blue) 55%,var(--purple));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+.reveal h1,.reveal h2{text-shadow:0 2px 30px rgba(0,0,0,.5);}
+/* chart-slide headlines: always one line, never wrap */
+.reveal h2.chart-title{white-space:nowrap; font-size:1.4em; margin-bottom:.1em;
+  overflow:hidden; text-overflow:ellipsis;}
+/* per-part "3 things to remember" — one big takeaway per card */
+.sgs-row{display:flex; gap:22px; margin-top:.4em;}
+.sgs{flex:1; border-radius:16px; padding:20px 18px; position:relative; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; text-align:center; gap:9px;
+  background:rgba(255,255,255,.045); backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%); border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 14px 36px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);}
+.sgs::after{content:''; position:absolute; top:0; left:0; right:0; height:4px;}
+.sgs.good::after{background:linear-gradient(90deg,var(--green),transparent);}
+.sgs.sim::after{background:linear-gradient(90deg,var(--amber),transparent);}
+.sgs.bad::after{background:linear-gradient(90deg,var(--red),transparent);}
+.sgs .ico{font-size:1.6em; line-height:1;}
+.sgs.visible .ico{animation:icoPop .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes icoPop{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+.sgs{transition:transform calc(.18s*var(--motion,1)) ease, box-shadow calc(.18s*var(--motion,1)) ease;}
+.present .sgs:hover{transform:translateY(-4px); box-shadow:0 20px 44px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.16);}
+/* ===== shimmer sweep — a light streak crosses cards when the slide appears ===== */
+.shimmer{position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; z-index:5; border-radius:inherit;}
+.shimmer::before{content:''; position:absolute; top:-60%; left:-75%; width:55%; height:220%;
+  transform:rotate(22deg);
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.18), rgba(255,255,255,.45), rgba(255,255,255,.18), transparent);}
+.present .sgs.visible .shimmer::before,.present .cta-card.visible .shimmer::before{animation:sweep 1.1s cubic-bezier(.2,.7,.3,1) .15s both;}
+@keyframes sweep{0%{left:-75%}100%{left:140%}}
+html[data-style='analyst'] .shimmer::before{animation:none !important;}
+/* ===== card entrance polish — fires when a fragment is shown (.visible via JS) ===== */
+.sgs.fragment.visible, .cta-card.fragment.visible{
+  animation:cardIn .55s cubic-bezier(.2,.7,.3,1) both;}
+@keyframes cardIn{from{opacity:.25; transform:translateY(24px) scale(.97)}to{opacity:1; transform:none}}
+html[data-style='analyst'] .sgs.fragment.visible,html[data-style='analyst'] .cta-card.fragment.visible{animation:none;}
+.sgs-h{font-size:.5em; font-weight:800; letter-spacing:.1em; text-transform:uppercase;}
+.sgs.good .sgs-h{color:var(--green);} .sgs.sim .sgs-h{color:var(--amber);} .sgs.bad .sgs-h{color:var(--red);}
+.sgs .big-point{font-size:.82em; font-weight:800; color:var(--tprimary); line-height:1.2;}
+.sgs.img .big-point{white-space:nowrap; font-size:.74em;}
+.sgs .sub-point{font-size:.58em; color:var(--tsec); line-height:1.4;}
+/* image-banner variant of the summary card — fixed size so ALL summaries match */
+.sgs.img{padding:0; gap:0; justify-content:flex-start; min-height:300px;}
+.sgs.img .sgs-body{flex:1 1 auto; justify-content:flex-start;}
+.sgs.img .sgs-img{width:100%; aspect-ratio:16/9; background-size:cover; background-position:center; position:relative; flex:0 0 auto;}
+.sgs.img .sgs-img::after{content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(8,13,26,.15), rgba(8,13,26,.85));}
+.sgs.img .sgs-badge{position:absolute; top:8px; left:8px; z-index:2; font-size:.55em; font-weight:800;
+  letter-spacing:.08em; text-transform:uppercase; padding:3px 9px; border-radius:20px;
+  background:rgba(8,13,26,.6); backdrop-filter:blur(6px);}
+.sgs.img.good .sgs-badge{color:var(--green); border:1px solid var(--green);}
+.sgs.img.bad .sgs-badge{color:var(--red); border:1px solid var(--red);}
+.sgs.img.action .sgs-badge{color:var(--cyan); border:1px solid var(--cyan);}
+.sgs.img .sgs-body{padding:12px 16px 16px; display:flex; flex-direction:column; gap:7px; align-items:center;}
+
+/* "What to change Monday" call-to-action cards */
+.cta-row{display:flex; gap:20px; margin-top:.4em; align-items:stretch;}
+.cta-card{flex:1; border-radius:18px; position:relative; overflow:hidden;
+  display:flex; flex-direction:column;
+  background:rgba(16,185,129,.07); backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%); border:1px solid rgba(16,185,129,.25);
+  box-shadow:0 14px 36px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);}
+/* full image on top of each card — taller, shows the whole photo */
+.cta-card .cta-img{width:100%; aspect-ratio:16/9; background-size:cover; background-position:center 35%; flex:0 0 auto;
+  position:relative;}
+.cta-card .cta-img::after{content:''; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(8,13,26,.10), rgba(15,30,25,.6) 80%, rgba(15,30,25,.95) 100%);}
+.cta-card .cta-body{padding:14px 18px 16px; position:relative; z-index:2;}
+/* number + title on one row — number sits right before the title, no overlap */
+.cta-card .cta-head{display:flex; align-items:center; gap:9px; margin-bottom:6px;}
+.cta-card .cta-n{flex:0 0 auto;
+  width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-size:.95em; font-weight:800; color:#06241A; line-height:1;
+  background:linear-gradient(135deg,var(--green),#34E0A8);
+  box-shadow:0 5px 16px rgba(16,185,129,.55), inset 0 1px 0 rgba(255,255,255,.4);}
+.cta-card .cta-h{font-size:.82em; font-weight:800; color:var(--tprimary); line-height:1.15;}
+.cta-card .cta-p{font-size:.6em; color:var(--tsec); line-height:1.4;}
+.cta-card .cta-drill{font-size:.58em; color:var(--green); line-height:1.4; margin-top:9px;
+  padding-top:9px; border-top:1px solid rgba(16,185,129,.25); font-weight:600;}
+
+/* tiny "how to read this chart" cue shown on chart slides */
+.read-cue{display:inline-flex; align-items:center; gap:14px; margin-top:8px; flex:0 0 auto;
+  font-size:.5em; color:var(--tmuted); font-weight:700; letter-spacing:.04em; text-transform:uppercase;}
+.read-cue .dot{display:inline-flex; align-items:center; gap:5px;}
+.read-cue .sw{width:13px; height:13px; border-radius:4px; display:inline-block;}
+.read-cue .sw.cy{background:var(--amber);} .read-cue .sw.eu{background:#3B5278;}
+
+/* Flag IMAGES (Windows doesn't render emoji flags, so we use real SVGs) */
+.flag{display:inline-block; width:1.5em; height:1.0em; margin-right:.5em; border-radius:2px;
+  background-size:cover; background-position:center; vertical-align:-2px;
+  box-shadow:0 1px 4px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.12);}
+.flag-cy{background-image:url(flags/cy.svg);} .flag-eu{background-image:url(flags/eu.svg);}
+.flag-gr{background-image:url(flags/gr.svg);} .flag-ro{background-image:url(flags/ro.svg);}
+.flag-nl{background-image:url(flags/nl.svg);} .flag-be{background-image:url(flags/be.svg);}
+.flag-rs{background-image:url(flags/rs.svg);} .flag-se{background-image:url(flags/se.svg);}
+.flag-si{background-image:url(flags/si.svg);} .flag-ch{background-image:url(flags/ch.svg);}
+.flag-es{background-image:url(flags/es.svg);} .flag-ie{background-image:url(flags/ie.svg);}
+.flag-il{background-image:url(flags/il.svg);} .flag-fi{background-image:url(flags/fi.svg);}
+.flag-sct{background-image:url(flags/gb-sct.svg);} .flag-wls{background-image:url(flags/gb-wls.svg);}
+.flag-gb{background-image:url(flags/gb.svg);} .flag-me{background-image:url(flags/me.svg);}
+.flag-mk{background-image:url(flags/mk.svg);} .flag-am{background-image:url(flags/am.svg);}
+.flag-ee{background-image:url(flags/ee.svg);} .flag-lt{background-image:url(flags/lt.svg);}
+.flag-kz{background-image:url(flags/kz.svg);} .flag-xk{background-image:url(flags/xk.svg);}
+.flag-us{background-image:url(flags/us.svg);} .flag-hu{background-image:url(flags/hu.svg);}
+/* large flag for headers/badges */
+.flag-lg{width:2.6em; height:1.73em; margin:0 .15em; border-radius:4px;}
+.comp-badge{display:inline-flex; align-items:center; gap:8px; padding:5px 12px; border-radius:9px;
+  background:var(--s2); border:1px solid var(--border); font-size:.62em; font-weight:700;
+  color:var(--tprimary); white-space:nowrap;}
+.comp-row{display:flex; flex-wrap:wrap; gap:10px; margin:.3em 0;}
+
+/* ===== SLIDE 2 — grouped competition cards (wraps to 2 rows), centred ===== */
+.comp-groups{display:flex; flex-wrap:wrap; align-items:center; align-content:center;
+  gap:14px; margin-top:.3em; justify-content:center;}
+.comp-group{display:inline-flex; flex-direction:column; gap:7px;
+  padding:9px 11px 11px; border-radius:14px;
+  background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07);}
+.cg-label{color:var(--cyan); font-size:.44em; font-weight:800; letter-spacing:.1em;
+  text-transform:uppercase; text-align:center; opacity:.9;}
+.cg-cards{display:flex; gap:8px; justify-content:center;}
+/* every card: logo/flag (top) + label (middle) + number (bottom) — all perfectly
+   centred, fixed sizes so all three lines sit identically across every card. */
+.comp-card{position:relative; border-radius:12px; overflow:hidden;
+  width:98px; height:112px; flex:0 0 98px; box-sizing:border-box; padding:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+  background:rgba(255,255,255,.045); backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 7px 18px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12);}
+/* logo + flag: identical fixed tile, horizontally centred */
+.comp-card img,.comp-card .cc-flag{box-sizing:border-box;
+  width:50px; height:34px; border-radius:6px; margin:0 auto; flex:0 0 34px;}
+.comp-card img{object-fit:contain; background:rgba(255,255,255,.92); padding:4px 6px;
+  box-shadow:0 2px 8px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,.5);}
+.comp-card .cc-flag{box-shadow:0 2px 8px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.25);}
+/* label: centred, fixed line */
+.comp-card .cc-age{width:100%; text-align:center; color:var(--text-secondary,#8899BB);
+  font-size:.44em; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+  line-height:1; flex:0 0 auto;}
+/* number: centred, fixed line */
+.comp-card .cc-n{width:100%; text-align:center; font-size:.72em; font-weight:800;
+  color:var(--cyan); line-height:1; text-shadow:0 0 16px rgba(6,214,245,.4);
+  white-space:nowrap; flex:0 0 auto;}
+.comp-card.cyp .cc-age{color:var(--amber); opacity:.9;}
+/* Cyprus cards highlighted (amber) */
+.comp-card.cyp{border-color:rgba(245,158,11,.32);
+  box-shadow:0 12px 30px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12), 0 0 0 1px rgba(245,158,11,.12);}
+.comp-card.cyp .cc-n{color:var(--amber); text-shadow:0 0 22px rgba(245,158,11,.45);}
+
+/* Competition logos on frosted-GLASS chips, logos lightened to white. */
+.clogo{height:1.3em; width:auto; vertical-align:middle; margin-right:.5em;
+  padding:3px 6px; border-radius:6px; box-sizing:content-box;
+  background:rgba(255,255,255,.06); backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.14);
+  filter:brightness(0) invert(1) opacity(.9);}
+.clogo-lg{height:58px; width:auto; margin:0; padding:16px 20px; border-radius:16px; box-sizing:content-box;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(255,255,255,.5);
+  box-shadow:0 12px 32px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.6);}
+.cbadge-row{display:flex; flex-wrap:wrap; gap:20px; align-items:center; margin-top:1.1em;}
+
+/* Hero numbers row */
+.hero-row{display:flex; gap:16px; margin:0 0 .35em;}
+.hero{flex:1; border-radius:16px; padding:12px 14px; text-align:center; position:relative;
+  background:rgba(255,255,255,.045); backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid rgba(255,255,255,.10); overflow:hidden;
+  box-shadow:0 12px 34px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.14);}
+.hero::after{content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--cyan),transparent);}
+.hero .big{font-family:'JetBrains Mono',monospace; font-size:1.75em; font-weight:800;
+  color:var(--cyan); line-height:1; text-shadow:0 0 26px rgba(6,214,245,.45);
+  animation:numGlow 3.2s ease-in-out infinite;}
+@keyframes numGlow{0%,100%{text-shadow:0 0 20px rgba(6,214,245,.35)}50%{text-shadow:0 0 34px rgba(6,214,245,.85), 0 0 60px rgba(6,214,245,.4)}}
+html[data-style='analyst'] .hero .big{animation:none;}
+.hero .lbl{color:var(--tsec); font-size:.46em; text-transform:uppercase;
+  letter-spacing:.1em; margin-top:.45em;}
+.hero.amber::after{background:linear-gradient(90deg,var(--amber),transparent);}
+.hero.amber .big{color:var(--amber); text-shadow:0 0 26px rgba(245,158,11,.45);}
+.hero.green::after{background:linear-gradient(90deg,var(--green),transparent);}
+.hero.green .big{color:var(--green); text-shadow:0 0 26px rgba(16,185,129,.45);}
+.hero.purple::after{background:linear-gradient(90deg,var(--purple),transparent);}
+.hero.purple .big{color:var(--purple); text-shadow:0 0 26px rgba(139,92,246,.45);}
+.hero.orange::after{background:linear-gradient(90deg,var(--orange),transparent);}
+.hero.orange .big{color:var(--orange); text-shadow:0 0 26px rgba(249,115,22,.45);}
+
+/* Scope table */
+table.scope{width:100%; border-collapse:collapse; font-size:.44em; margin-top:.1em;}
+table.scope th{color:var(--tmuted); text-transform:uppercase; letter-spacing:.08em;
+  font-size:.85em; text-align:left; padding:4px 10px; border-bottom:1px solid var(--border);}
+table.scope td{padding:3.5px 10px; border-bottom:1px solid var(--s2); color:var(--tsec);}
+table.scope td.n{font-family:'JetBrains Mono',monospace; color:var(--tprimary);
+  text-align:right; font-weight:700;}
+table.scope tr.block td:first-child{color:var(--cyan); font-weight:700;}
+table.scope tr.total td{border-top:2px solid var(--border); color:var(--tprimary);
+  font-weight:800; font-size:1.15em;}
+.src-tag{display:inline-block; font-size:.85em; padding:1px 7px; border-radius:5px;
+  font-family:'JetBrains Mono',monospace;}
+.src-wy{background:rgba(59,130,246,.15); color:#7FAEF5;}
+.src-sci{background:rgba(6,214,245,.15); color:var(--cyan);}
+
+/* generic */
+.chart-wrap{border-radius:20px; padding:18px 22px; flex:1 1 auto; min-height:420px; position:relative;
+  background:rgba(13,19,33,.92); backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 20px 55px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);}
+.chart-wrap canvas{position:absolute; inset:18px 22px;}
+.chart-wrap::before{content:''; position:absolute; inset:0; border-radius:18px; padding:1px;
+  background:linear-gradient(140deg, rgba(6,214,245,.35), transparent 40%, transparent 70%, rgba(139,92,246,.3));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none;}
+.verdict{background:linear-gradient(90deg,rgba(6,214,245,.16),rgba(6,214,245,.03) 60%,transparent);
+  border-left:4px solid var(--cyan); padding:13px 20px; margin-top:.5em; border-radius:0 12px 12px 0;
+  flex:0 0 auto; box-shadow:0 8px 24px rgba(0,0,0,.3), -1px 0 18px rgba(6,214,245,.25);}
+.verdict p{color:var(--tprimary); font-size:.8em; margin:0; font-weight:600;}
+/* captions and kickers never shrink away */
+.reveal section>.kicker,.reveal section>h2,.reveal section>p{flex:0 0 auto;}
+
+/* Flag wall on NT divider */
+.flag-wall{display:flex; flex-wrap:wrap; gap:13px; width:862px; max-width:862px; margin-top:1.2em;}
+.flag-wall .flag{width:58px; height:39px; margin:0; border-radius:5px; opacity:0;
+  animation:flagIn .5s forwards; box-shadow:0 4px 12px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.12);}
+@keyframes flagIn{from{opacity:0;transform:translateY(12px) scale(.6)}to{opacity:1;transform:none}}
+.flag-wall .flag:nth-child(n){animation-delay:calc(.04s * var(--i,0));}
+/* stagger via nth-child */
+.flag-wall .flag:nth-child(1){--i:1}.flag-wall .flag:nth-child(2){--i:2}.flag-wall .flag:nth-child(3){--i:3}
+.flag-wall .flag:nth-child(4){--i:4}.flag-wall .flag:nth-child(5){--i:5}.flag-wall .flag:nth-child(6){--i:6}
+.flag-wall .flag:nth-child(7){--i:7}.flag-wall .flag:nth-child(8){--i:8}.flag-wall .flag:nth-child(9){--i:9}
+.flag-wall .flag:nth-child(10){--i:10}.flag-wall .flag:nth-child(11){--i:11}.flag-wall .flag:nth-child(12){--i:12}
+.flag-wall .flag:nth-child(n+13){--i:13}
+/* Divider slides: vertically centred, sparse, with giant ghost number */
+.reveal .slides>section.divider.present{justify-content:center !important;}
+.divider-num{font-family:'JetBrains Mono',monospace; font-size:1.5em; font-weight:800;
+  letter-spacing:.1em; margin-bottom:.1em;
+  background:linear-gradient(120deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+section.divider::after{content:attr(data-ghost); position:absolute; right:-2%; bottom:-18%;
+  font-family:'JetBrains Mono',monospace; font-size:30em; font-weight:800; line-height:1;
+  color:rgba(45,58,82,.16); z-index:0; pointer-events:none;}
+/* Title + close slides centred */
+.reveal .slides>section.vcenter.present{justify-content:center !important;}
+.msg-row{display:flex; gap:22px; margin-top:.4em;}
+.msg{flex:1; border-radius:20px; padding:24px 22px; position:relative; overflow:hidden;
+  background:rgba(255,255,255,.045); backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 16px 44px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.14);}
+.msg::after{content:''; position:absolute; top:0; left:0; right:0; height:4px;}
+.msg .mnum{font-family:'JetBrains Mono',monospace; font-size:1.5em; font-weight:800;}
+.msg.know::after{background:linear-gradient(90deg,var(--cyan),transparent);} .msg.know .mnum{color:var(--cyan); text-shadow:0 0 20px rgba(6,214,245,.5);}
+.msg.understand::after{background:linear-gradient(90deg,var(--amber),transparent);} .msg.understand .mnum{color:var(--amber); text-shadow:0 0 20px rgba(245,158,11,.5);}
+.msg.act::after{background:linear-gradient(90deg,var(--green),transparent);} .msg.act .mnum{color:var(--green); text-shadow:0 0 20px rgba(16,185,129,.5);}
+.msg h3{color:var(--tprimary); margin:.3em 0; font-size:1.2em;}
+.msg p{font-size:.68em;}
+.big-quote{font-size:1.4em; color:var(--tprimary); font-weight:700; line-height:1.3;
+  border:none; font-style:normal;}
+.big-quote .hl{color:var(--cyan);}
+.highlight{color:var(--cyan); font-weight:700;}
+.highlight-r{color:var(--red); font-weight:700;}
+.highlight-g{color:var(--green); font-weight:700;}
+.center{text-align:center;}
+/* ===== Image-backed slides — dark blue overlay so text/charts stay readable ===== */
+.img-slide{position:relative; overflow:hidden;}
+.img-bg{position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-size:cover; background-position:center;}
+.img-bg::after{content:''; position:absolute; inset:0;
+  background:
+    linear-gradient(100deg, rgba(8,13,26,.95) 0%, rgba(8,13,26,.86) 42%, rgba(8,13,26,.62) 78%, rgba(8,13,26,.5) 100%),
+    linear-gradient(0deg, rgba(8,13,26,.85), transparent 55%),
+    radial-gradient(700px 500px at 85% 50%, rgba(6,214,245,.12), transparent 60%);}
+.img-slide > *:not(.img-bg){position:relative; z-index:2;}
+.img-bg.partA{background-image:url(img-partA.jpg);}
+.img-bg.partB{background-image:url(img-partB.jpg);}
+.img-bg.partC{background-image:url(img-partC.jpg);}
+.img-bg.takehome{background-image:url(img-takehome.jpg);}
+.img-bg.close{background-image:url(img-close.jpg);}
+
+/* ===== TITLE SLIDE — full-bleed photo background, left-aligned column ===== */
+.title-slide{align-items:flex-start; overflow:hidden;}
+/* single shared left edge + even vertical rhythm for every element */
+.title-inner{position:relative; z-index:2; display:flex; flex-direction:column;
+  align-items:flex-start; gap:26px;}
+.title-flags{display:flex; align-items:center; gap:18px; margin:0;}
+.title-flags .vs-sm{color:var(--tsec); font-weight:300; font-size:1.4em;}
+.title-h1{margin:0; font-size:3.8em; line-height:.96; letter-spacing:-.02em;}
+.title-sub{margin:0; color:var(--text-secondary,#8899BB); font-size:1.05em; font-weight:500;
+  letter-spacing:.01em;}
+/* the photo fills the slide; dark gradient overlay keeps text crisp & readable */
+.title-bg{position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(100deg, rgba(8,13,26,.98) 0%, rgba(8,13,26,.92) 40%, rgba(8,13,26,.68) 72%, rgba(8,13,26,.55) 100%),
+    linear-gradient(0deg, rgba(8,13,26,.9), transparent 50%),
+    url(title-bg.jpg);
+  background-size:cover; background-position:center 30%;}
+.power-words{display:flex; align-items:center; gap:18px; margin:0;
+  font-family:'JetBrains Mono',monospace; font-weight:800; font-size:1.45em; letter-spacing:.06em;}
+.power-words span{color:var(--text-secondary,#8899BB);}
+.power-words .last{background:linear-gradient(100deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+.power-words .dot{color:var(--cyan); opacity:.6;}
+.title-slide .src-line{color:var(--tmuted); font-size:.62em; letter-spacing:.12em;
+  margin-top:2em; text-transform:uppercase; font-weight:700;}
+/* source logos row — frosted GLASS chips with a bright translucent fill so the
+   ORIGINAL (dark) logos stay visible with their real detail/colour. No invert. */
+.src-logos{display:flex; align-items:center; gap:16px; margin:6px 0 0;}
+.src-chip{display:inline-flex; align-items:center; justify-content:center;
+  width:150px; height:64px; padding:12px 18px; border-radius:14px; box-sizing:border-box;
+  background:rgba(255,255,255,.82); backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(14px) saturate(150%);
+  border:1px solid rgba(255,255,255,.45);
+  box-shadow:0 8px 28px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.7);}
+.src-chip img{max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain;
+  display:block;}
+/* SCIOS is a light logo (kept in original colour) → dark frosted-glass chip so it stays visible */
+.src-chip.dark{background:rgba(15,22,41,.55); border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 8px 28px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.16);}
+/* "Powered by" label + all three source logos in one line */
+.src-block{display:flex; flex-direction:column; align-items:flex-start; gap:10px; margin-top:4px;}
+.src-sub{color:var(--tmuted); font-size:.58em; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase;}
+
+.logo{position:fixed; top:18px; left:50%; transform:translateX(-50%); z-index:40;}
+.logo img{height:74px; width:auto; opacity:.95;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.65));}
+.flow{display:flex; align-items:center; justify-content:center; gap:16px; margin-top:.6em;}
+.flow .node{border-radius:18px; padding:20px 18px; text-align:center; width:210px; position:relative;
+  background:rgba(255,255,255,.045); backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 14px 36px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12);}
+.flow .node .ico{font-size:1.8em; margin-bottom:.25em; filter:drop-shadow(0 0 12px rgba(6,214,245,.4));}
+.flow .node .t{color:var(--cyan); font-weight:800; font-size:.82em; letter-spacing:.02em;}
+.flow .node .d{color:var(--tsec); font-size:.6em; margin-top:.4em; line-height:1.35;}
+.flow .arrow{color:var(--cyan); font-size:1.8em; text-shadow:0 0 16px rgba(6,214,245,.6);}
+
+/* ===== QR scan slide ===== */
+.qr-wrap{display:flex; align-items:center; gap:46px; margin-top:8px;}
+/* dead-centre the QR in the whole slide, ignoring section padding/flex */
+.reveal .slides>section.qr-slide.present{padding:0; justify-content:center; align-items:center;}
+.qr-center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;}
+.qr-link{font-family:'JetBrains Mono',monospace; font-size:.8em; color:var(--cyan); letter-spacing:.02em;
+  background:rgba(6,214,245,.08); border:1px solid rgba(6,214,245,.35); border-radius:12px; padding:12px 22px;}
+.qr-frame{position:relative; width:400px; height:400px; border-radius:24px; padding:18px;
+  background:#fff; box-shadow:0 24px 70px rgba(0,0,0,.6), 0 0 60px rgba(6,214,245,.35);
+  animation:qrPop .6s cubic-bezier(.2,.7,.3,1) both;}
+.qr-frame img{width:100%; height:100%; object-fit:contain; display:block;}
+@keyframes qrPop{from{opacity:0; transform:scale(.9) translateY(20px)} to{opacity:1; transform:none}}
+.qr-ph{display:none; position:absolute; inset:16px; align-items:center; justify-content:center; flex-direction:column;
+  background:repeating-linear-gradient(45deg,#0F1629,#0F1629 14px,#121b30 14px,#121b30 28px);
+  color:var(--tmuted); font-weight:800; letter-spacing:.12em; text-align:center; border-radius:8px; font-size:.7em;}
+.qr-ph span{display:block; font-size:.7em; font-weight:600; letter-spacing:.04em; margin-top:8px; color:var(--tsec);}
+.qr-side{text-align:left;}
+.qr-feat{display:flex; align-items:center; gap:11px; color:var(--tprimary); font-size:.82em; font-weight:600; margin:14px 0;}
+.qr-feat .qd{width:11px; height:11px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 10px currentColor;}
+.qr-url{margin-top:22px; font-family:'JetBrains Mono',monospace; font-size:.66em; color:var(--cyan);
+  background:rgba(6,214,245,.08); border:1px solid var(--accent-primary,rgba(6,214,245,.3)); border-radius:10px;
+  padding:10px 16px; display:inline-block; letter-spacing:.02em;}
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+<a href="index.html" title="Back to menu" style="position:fixed;top:14px;left:14px;z-index:60;display:flex;align-items:center;gap:5px;
+  color:#8899BB;text-decoration:none;font-size:12px;font-weight:700;font-family:'Inter',sans-serif;background:rgba(8,13,26,.6);
+  backdrop-filter:blur(8px);padding:6px 12px;border-radius:30px;border:1px solid #2D3A52;transition:.2s;"
+  onmouseover="this.style.borderColor='#06D6F5';this.style.color='#E8EEFF'"
+  onmouseout="this.style.borderColor='#2D3A52';this.style.color='#8899BB'">‹ Menu</a>
+<div class="logo"><img src="logos/scios.png" alt="Science of Sports"></div>
+<div class="reveal"><div class="slides">
+
+<!-- ============ SLIDE 1 — TITLE ============ -->
+<section class="vcenter title-slide" data-background-color="#080D1A">
+  <div class="title-bg"></div>
+  <div class="title-inner">
+    <div class="title-flags">
+      <span class="flag flag-cy flag-lg"></span>
+      <span class="vs-sm">vs</span>
+      <span class="flag flag-eu flag-lg"></span>
+    </div>
+    <h1 class="title-h1">Mind the <span class="grad">Gap</span></h1>
+    <div class="title-sub">What's the gap to the top?<br>And how do we close it?</div>
+    <div class="power-words">
+      <span>KNOW</span><span class="dot">·</span><span>COMPARE</span><span class="dot">·</span><span class="last">IMPROVE</span>
+    </div>
+    <div class="src-block">
+      <div class="src-sub">Powered by the data of</div>
+      <div class="src-logos">
+        <span class="src-chip dark"><img src="logos/scios.png" alt="Science of Sports"></span>
+        <span class="src-chip"><img src="logos/uefa.png" alt="UEFA"></span>
+        <span class="src-chip"><img src="logos/wyscout.jpg" alt="Hudl Wyscout"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2 — SCOPE (cards) ============ -->
+<section class="vcenter" data-background-color="#080D1A" style="justify-content:flex-start; padding-top:70px">
+  <div class="hero-row fragment fade-up" data-fragment-index="1">
+    <div class="hero green"><div class="big num-mono" data-count="25">0</div><div class="lbl">Countries</div></div>
+    <div class="hero amber"><div class="big num-mono" data-count="17">0</div><div class="lbl">Competitions</div></div>
+    <div class="hero orange"><div class="big num-mono" data-count="271">0</div><div class="lbl">Teams</div></div>
+  </div>
+  <div class="hero-row fragment fade-up" data-fragment-index="1" style="margin-top:16px">
+    <div class="hero"><div class="big num-mono" data-count="2423">0</div><div class="lbl">Matches analysed</div></div>
+    <div class="hero purple"><div class="big num-mono">~2.0M</div><div class="lbl">Match events</div></div>
+  </div>
+
+  <div class="comp-groups">
+    <div class="comp-group fragment fade-up" data-fragment-index="2">
+      <div class="cg-label">UEFA Competitions</div>
+      <div class="cg-cards">
+        <div class="comp-card"><img src="logos/ucl.svg" alt="UCL"><div class="cc-age">UCL</div><div class="cc-n num-mono">189</div></div>
+        <div class="comp-card"><img src="logos/uel.png" alt="UEL"><div class="cc-age">UEL</div><div class="cc-n num-mono">189</div></div>
+        <div class="comp-card"><img src="logos/uecl.svg" alt="UECL"><div class="cc-age">UECL</div><div class="cc-n num-mono">177</div></div>
+      </div>
+    </div>
+    <div class="comp-group fragment fade-up" data-fragment-index="3">
+      <div class="cg-label">Country Leagues</div>
+      <div class="cg-cards">
+        <div class="comp-card"><img src="logos/greece.png" alt="Greece"><div class="cc-age">GRE</div><div class="cc-n num-mono">182</div></div>
+        <div class="comp-card"><img src="logos/romania.svg" alt="Romania"><div class="cc-age">ROU</div><div class="cc-n num-mono">240</div></div>
+        <div class="comp-card cyp"><img src="logos/cyprus1.png" alt="Cyprus 1st"><div class="cc-age">CY 1st</div><div class="cc-n num-mono">182</div></div>
+        <div class="comp-card cyp"><img src="logos/cyprus2.svg" alt="Cyprus 2nd"><div class="cc-age">CY 2nd</div><div class="cc-n num-mono">190</div></div>
+      </div>
+    </div>
+    <div class="comp-group fragment fade-up" data-fragment-index="4">
+      <div class="cg-label">Youth Competitions</div>
+      <div class="cg-cards">
+        <div class="comp-card cyp"><img src="logos/cyprus2.svg" alt="CFA"><div class="cc-age">U14</div><div class="cc-n num-mono">251</div></div>
+        <div class="comp-card cyp"><img src="logos/cyprus2.svg" alt="CFA"><div class="cc-age">U15</div><div class="cc-n num-mono">235</div></div>
+        <div class="comp-card cyp"><img src="logos/cyprus2.svg" alt="CFA"><div class="cc-age">U16</div><div class="cc-n num-mono">297</div></div>
+        <div class="comp-card cyp"><img src="logos/cyprus2.svg" alt="CFA"><div class="cc-age">U17</div><div class="cc-n num-mono">131</div></div>
+        <div class="comp-card cyp"><img src="logos/cyprus2.svg" alt="CFA"><div class="cc-age">U19</div><div class="cc-n num-mono">124</div></div>
+      </div>
+    </div>
+    <div class="comp-group fragment fade-up" data-fragment-index="5">
+      <div class="cg-label">National Teams</div>
+      <div class="cg-cards">
+        <div class="comp-card cyp"><span class="cc-flag flag flag-cy"></span><div class="cc-age">U15</div><div class="cc-n num-mono">4</div></div>
+        <div class="comp-card cyp"><span class="cc-flag flag flag-cy"></span><div class="cc-age">U16</div><div class="cc-n num-mono">2</div></div>
+        <div class="comp-card cyp"><span class="cc-flag flag flag-cy"></span><div class="cc-age">U17</div><div class="cc-n num-mono">6</div></div>
+        <div class="comp-card cyp"><span class="cc-flag flag flag-cy"></span><div class="cc-age">U19</div><div class="cc-n num-mono">12</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3 — BLOCK 1 DIVIDER ============ -->
+<section class="divider img-slide" data-ghost="01" data-background-color="#0F1629">
+  <div class="img-bg partA"></div>
+  <div class="divider-num">PART 01</div>
+  <h1>The Top Level<br><span class="grad">— and where Cyprus stands</span></h1>
+  <p style="font-size:.9em">How close are we to the best?</p>
+  <div class="cbadge-row">
+    <img class="clogo-lg" src="logos/ucl.svg" alt="UEFA Champions League">
+    <img class="clogo-lg" src="logos/uel.png" alt="UEFA Europa League">
+    <img class="clogo-lg" src="logos/uecl.svg" alt="UEFA Conference League">
+    <img class="clogo-lg" src="logos/greece.png" alt="Greek Super League">
+    <img class="clogo-lg" src="logos/romania.svg" alt="Romanian SuperLiga">
+    <img class="clogo-lg" src="logos/cyprus1.png" alt="Cyprus First Division">
+  </div>
+</section>
+
+<!-- ============ PART 1 — PRESSING (strength, goes first) ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">1.1 · Pressing (PPDA)</div>
+  <h2 class="chart-title">We press the <span class="highlight-g">hardest</span></h2>
+  <div class="chart-wrap"><canvas id="c_strength"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--green)"></span>Cyprus</span><span class="dot"><span class="sw" style="background:#5B6B86"></span>Opponents</span><span style="color:var(--tmuted)">lower = presses harder</span></div>
+</section>
+
+<!-- ============ PART 1 — PASSING VOLUME ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">1.2 · Passing Quantity</div>
+  <h2 class="chart-title">We pass <span class="highlight-r">fewer times</span></h2>
+  <div class="chart-wrap"><canvas id="c_gradient"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--amber)"></span>Cyprus</span><span class="dot"><span class="sw" style="background:#5B6B86"></span>Opponents</span></div>
+</section>
+
+<!-- ============ PART 1 — PASSING ACCURACY ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">1.3 · Passing Accuracy</div>
+  <h2 class="chart-title">We pass <span class="highlight-g">accurately enough</span></h2>
+  <div class="chart-wrap"><canvas id="c_distA"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--green)"></span>Cyprus 1st</span><span class="dot"><span class="sw" style="background:var(--red)"></span>Cyprus 2nd</span><span class="dot"><span class="sw" style="background:#5B6B86"></span>Opponents</span></div>
+</section>
+
+<!-- ============ SLIDE 7 — CYPRUS LAST (bar, red) ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">1.4 · Final Third Entries</div>
+  <h2 class="chart-title">We get into the box <span class="highlight-r">least of anyone</span></h2>
+  <div class="chart-wrap"><canvas id="c_last"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--red)"></span>Cyprus</span><span class="dot"><span class="sw" style="background:#5B6B86"></span>Opponents</span></div>
+</section>
+
+<!-- ============ PART A — TEMPO & PRESS chart ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">1.5 · Speed of Pass</div>
+  <h2 class="chart-title">We play the <span class="highlight-r">slowest</span></h2>
+  <div class="chart-wrap"><canvas id="c_tempo"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--red)"></span>Cyprus</span><span class="dot"><span class="sw" style="background:#5B6B86"></span>Opponents</span><span style="color:var(--tmuted)">match tempo = passes per minute of possession (higher = faster)</span></div>
+</section>
+
+<!-- ============ PART A — SUMMARY ============ -->
+<section class="vcenter" data-background-color="#080D1A">
+  <div class="kicker">Part 1 · Summary</div>
+  <h2 style="margin-bottom:.2em">We press hard — but <span class="grad">play it slow and safe</span></h2>
+  <div class="sgs-row">
+    <div class="sgs img good fragment">
+      <div class="sgs-img" style="background-image:url(summary/pressing-cyprus.png)"><span class="sgs-badge">Strength</span></div>
+      <div class="sgs-body"><div class="big-point">Pressing Intensity</div>
+      <div class="sub-point">We press harder than anyone — even the Champions League</div></div></div>
+    <div class="sgs img bad fragment">
+      <div class="sgs-img" style="background-image:url(summary/speed.png)"><span class="sgs-badge">Gap 1</span></div>
+      <div class="sgs-body"><div class="big-point">Speed of Pass</div>
+      <div class="sub-point">We play the slowest, so we end up passing fewer times</div></div></div>
+    <div class="sgs img bad fragment">
+      <div class="sgs-img" style="background-image:url(summary/box.png)"><span class="sgs-badge">Gap 2</span></div>
+      <div class="sgs-body"><div class="big-point">Final Third</div>
+      <div class="sub-point">We get into the box least of anyone in Europe</div></div></div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 8 — BLOCK 2 DIVIDER ============ -->
+<section class="divider img-slide" data-ghost="02" data-background-color="#0F1629">
+  <div class="img-bg partB"></div>
+  <div class="divider-num">PART 02</div>
+  <h1>Our Youth<br><span class="grad">— U14 to seniors</span></h1>
+  <p style="font-size:.9em">What we build, and what we miss.</p>
+  <div class="cbadge-row" style="margin-top:18px">
+    <span class="flag flag-cy flag-lg"></span>
+  </div>
+</section>
+
+<!-- ============ PART B — PASSES VOLUME chart ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">2.1 · Passing volume</div>
+  <h2 class="chart-title">Passing volume <span class="highlight-g">climbs with every level</span></h2>
+  <div class="chart-wrap"><canvas id="c_youthVol"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--amber)"></span>Cyprus youth</span><span class="dot"><span class="sw" style="background:var(--green)"></span>Cyprus senior</span><span class="dot"><span class="sw" style="background:var(--cyan)"></span>Europe</span><span style="color:var(--tmuted)">passes per game</span></div>
+</section>
+
+<!-- ============ PART B — PENETRATION chart ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">2.2 · Passing accuracy</div>
+  <h2 class="chart-title">Accuracy climbs <span class="highlight-g">from youth to elite</span></h2>
+  <div class="chart-wrap"><canvas id="c_youthPen"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--amber)"></span>Cyprus youth</span><span class="dot"><span class="sw" style="background:var(--green)"></span>Cyprus senior</span><span class="dot"><span class="sw" style="background:var(--cyan)"></span>Europe</span><span style="color:var(--tmuted)">% of passes completed</span></div>
+</section>
+
+<!-- ============ PART B — ATTACKING HALF POSSESSION chart ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">2.3 · Ball Possession</div>
+  <h2 class="chart-title">We keep <span class="highlight-r">~60% of the ball in our own half</span></h2>
+  <div class="chart-wrap"><canvas id="c_youthPass"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--cyan)"></span>Attacking half</span><span class="dot"><span class="sw" style="background:#2D3A52"></span>Own half</span><span style="color:var(--tmuted)">share of on-ball actions, split at the halfway line</span></div>
+</section>
+
+<!-- ============ PART B — DEEP COMPLETIONS chart ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">2.4 · Deep completions</div>
+  <h2 class="chart-title">As defences get tougher, the <span class="highlight-r">danger drops</span></h2>
+  <div class="chart-wrap"><canvas id="c_youthAtt"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--cyan)"></span>Youth</span><span class="dot"><span class="sw" style="background:var(--red)"></span>Senior average</span><span class="dot"><span class="sw" style="background:var(--green)"></span>Omonoia (champions)</span></div>
+</section>
+
+<!-- ============ PART B — SUMMARY ============ -->
+<section class="vcenter" data-background-color="#080D1A">
+  <div class="kicker">Part 2 · Summary</div>
+  <h2 style="margin-bottom:.2em">Good on the ball — but <span class="grad">we play it safe</span></h2>
+  <div class="sgs-row">
+    <div class="sgs img good fragment">
+      <div class="sgs-img" style="background-image:url(summary/retention.jpg)"><span class="sgs-badge">Strength</span></div>
+      <div class="sgs-body"><div class="big-point">Ball Retention</div>
+      <div class="sub-point">Volume &amp; accuracy climb all the way to elite level</div></div></div>
+    <div class="sgs img bad fragment">
+      <div class="sgs-img" style="background-image:url(summary/buildup.png)"><span class="sgs-badge">Gap 1</span></div>
+      <div class="sgs-body"><div class="big-point">Own-Half Play</div>
+      <div class="sub-point">~60% of the ball stays in our own half, at every age</div></div></div>
+    <div class="sgs img bad fragment">
+      <div class="sgs-img" style="background-image:url(summary/danger.jpg)"><span class="sgs-badge">Gap 2</span></div>
+      <div class="sgs-body"><div class="big-point">Danger Near Goal</div>
+      <div class="sub-point">Deep completions drop — only champions keep it</div></div></div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 10 — BLOCK 3 DIVIDER ============ -->
+<section class="divider img-slide" data-ghost="03" data-background-color="#0F1629">
+  <div class="img-bg partC"></div>
+  <div class="divider-num">PART 03</div>
+  <h1>National Teams<br><span class="grad">— Cyprus vs the world</span></h1>
+  <p style="font-size:.9em">Cyprus youth vs 24 nations — the fairest test.</p>
+  <div class="flag-wall">
+    <span class="flag flag-cy"></span><span class="flag flag-nl"></span><span class="flag flag-be"></span><span class="flag flag-rs"></span>
+    <span class="flag flag-se"></span><span class="flag flag-si"></span><span class="flag flag-ch"></span><span class="flag flag-es"></span>
+    <span class="flag flag-ro"></span><span class="flag flag-ie"></span><span class="flag flag-il"></span><span class="flag flag-fi"></span>
+    <span class="flag flag-sct"></span><span class="flag flag-wls"></span><span class="flag flag-gb"></span><span class="flag flag-me"></span>
+    <span class="flag flag-mk"></span><span class="flag flag-am"></span><span class="flag flag-ee"></span><span class="flag flag-lt"></span>
+    <span class="flag flag-kz"></span><span class="flag flag-xk"></span><span class="flag flag-us"></span><span class="flag flag-hu"></span>
+  </div>
+</section>
+
+<!-- ============ 3.1 — SHOTS BY AGE (systemic) ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">3.1 · Shooting</div>
+  <h2 class="chart-title">Every age shoots less — <span class="highlight-r">it's not one team</span></h2>
+  <div class="chart-wrap"><canvas id="c_ntAge"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--red)"></span>Cyprus</span><span class="dot"><span class="sw" style="background:#5B6B86"></span>Opponents</span><span style="color:var(--tmuted)">shots per game, by age group</span></div>
+</section>
+
+<!-- ============ 3.2 — TORNADO (the whole picture) ⭐ ============ -->
+<section data-background-color="#080D1A">
+  <div class="kicker">3.2 · Cyprus vs Opponents</div>
+  <h2 class="chart-title">We build up a lot — and <span class="highlight-r">struggle in attack</span></h2>
+  <div class="chart-wrap"><canvas id="c_nt"></canvas></div>
+  <div class="read-cue"><span class="dot"><span class="sw" style="background:var(--green)"></span>Better than opponents</span><span class="dot"><span class="sw" style="background:var(--red)"></span>Worse than opponents</span><span style="color:var(--tmuted)">% difference vs the average opponent</span></div>
+</section>
+
+<!-- ============ PART C — SUMMARY ============ -->
+<section class="vcenter" data-background-color="#080D1A">
+  <div class="kicker">Part 3 · Summary</div>
+  <h2 style="margin-bottom:.2em">We build up well — but <span class="grad">struggle in attack</span></h2>
+  <div class="sgs-row">
+    <div class="sgs img good fragment">
+      <div class="sgs-img" style="background-image:url(summary/buildup.png)"><span class="sgs-badge">Strength</span></div>
+      <div class="sgs-body"><div class="big-point">Build-Up</div>
+      <div class="sub-point">We build from the back more than our opponents (+18%)</div></div></div>
+    <div class="sgs img bad fragment">
+      <div class="sgs-img" style="background-image:url(summary/pressing-opponent.png)"><span class="sgs-badge">Gap 1</span></div>
+      <div class="sgs-body"><div class="big-point">Pressing</div>
+      <div class="sub-point">Opponents press far harder (−62%) and win more duels</div></div></div>
+    <div class="sgs img bad fragment">
+      <div class="sgs-img" style="background-image:url(summary/shooting.jpg)"><span class="sgs-badge">Gap 2</span></div>
+      <div class="sgs-body"><div class="big-point">Shooting &amp; Crossing</div>
+      <div class="sub-point">We shoot −31% and cross −31% less than opponents</div></div></div>
+  </div>
+</section>
+
+<!-- ============ TAKE HOME (conclusions) ============ -->
+<section class="vcenter" data-background-color="#080D1A">
+  <div class="kicker">The take-home</div>
+  <h2 style="margin-bottom:.5em">Keep the ball — <span class="grad">make it count.</span></h2>
+  <div class="sgs-row">
+    <div class="sgs img action good fragment">
+      <div class="sgs-img" style="background-image:url(summary/possession.jpg)"><span class="sgs-badge">Forward</span></div>
+      <div class="sgs-body"><div class="big-point">Build Up Higher</div>
+      <div class="sub-point">Bring the ball forward and keep it there — that's where the goals come from</div></div></div>
+    <div class="sgs img action good fragment">
+      <div class="sgs-img" style="background-image:url(summary/goal.jpg)"><span class="sgs-badge">Create</span></div>
+      <div class="sgs-body"><div class="big-point">Final Third Mastery</div>
+      <div class="sub-point">More passes behind the defence, more 1v1s, crosses and shots on goal</div></div></div>
+    <div class="sgs img action good fragment">
+      <div class="sgs-img" style="background-image:url(summary/pressing-opponent.png)"><span class="sgs-badge">Press</span></div>
+      <div class="sgs-body"><div class="big-point">Pressing Intensity</div>
+      <div class="sub-point">Build it in our club teams first, and it carries through to the national team</div></div></div>
+  </div>
+</section>
+
+<!-- ============ WHAT TO CHANGE MONDAY (call to action) ============ -->
+<section class="vcenter" data-background-color="#080D1A">
+  <div class="kicker">What to coach next</div>
+  <h2 style="margin-bottom:.2em; font-size:1.5em">3 things to <span class="grad">coach differently</span></h2>
+  <div class="cta-row">
+    <div class="cta-card fragment"><div class="cta-img" style="background-image:url(cta-1.jpg)"></div>
+      <div class="cta-body">
+      <div class="cta-head"><span class="cta-n">1</span><span class="cta-h">Breaking Line Passes</span></div>
+      <div class="cta-drill">On the pitch: praise the pass that breaks a line and reaches the attacking half.</div></div></div>
+    <div class="cta-card fragment"><div class="cta-img" style="background-image:url(summary/runs-behind.png); background-size:140%; background-position:0% 8%"></div>
+      <div class="cta-body">
+      <div class="cta-head"><span class="cta-n">2</span><span class="cta-h">Passes &amp; runs behind defence</span></div>
+      <div class="cta-drill">On the pitch: encourage passes in behind the defence and the runs to meet them.</div></div></div>
+    <div class="cta-card fragment"><div class="cta-img" style="background-image:url(summary/intensity-training.jpg)"></div>
+      <div class="cta-body">
+      <div class="cta-head"><span class="cta-n">3</span><span class="cta-h">High-intensity (RSA) training</span></div>
+      <div class="cta-drill">On the pitch: reward intensity in repeated-sprint drills that fit your game plan.</div></div></div>
+  </div>
+  <p style="margin-top:1.3em; font-size:1.3em; color:var(--tprimary); font-weight:800; text-align:center">Thank you.</p>
+</section>
+
+<!-- ============ SLIDE 22 — SCAN QR (take it home) ============ -->
+<section class="qr-slide" data-background-color="#080D1A">
+  <div class="qr-center">
+    <div class="qr-frame">
+      <img id="qrImg" src="qr.png" alt="Scan to open"
+        onerror="this.style.display='none';document.getElementById('qrPlaceholder').style.display='flex';">
+      <div id="qrPlaceholder" class="qr-ph">QR CODE<br><span>added after GitHub push</span></div>
+    </div>
+    <div class="qr-link" id="qrUrl">your-live-url-here</div>
+  </div>
+</section>
+
+</div></div>
+
+<script src="lib/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash:true, slideNumber:'c/t', transition:'slide', transitionSpeed:'default',
+  width:1280, height:720, margin:0.04, minScale:0.2, maxScale:2.0,
+  center:false, controls:false, controlsTutorial:false,
+});
+
+// SCIOS chart theme
+const COL={cyan:'#06D6F5',blue:'#3B82F6',purple:'#8B5CF6',green:'#10B981',
+  amber:'#F59E0B',red:'#EF4444',orange:'#F97316',
+  grid:'#2D3A52',txt:'#8899BB',ptxt:'#E8EEFF',muted:'#4A5A78'};
+Chart.defaults.color=COL.txt;
+Chart.defaults.font.family="'Inter',sans-serif";
+Chart.defaults.font.size=13;
+
+const charts={};
+function makeChart(id,cfg){ if(charts[id])return;
+  const el=document.getElementById(id);
+  if(el) charts[id]=new Chart(el,cfg); }
+
+// vertical gradient fill helper for bars
+function grad(ctx,area,hex,a1=1,a2=.25){
+  if(!area) return hex;
+  const g=ctx.createLinearGradient(area.left,0,area.right,0);
+  g.addColorStop(0,hexA(hex,a2)); g.addColorStop(1,hexA(hex,a1)); return g;
+}
+function hexA(hex,a){const n=parseInt(hex.slice(1),16);
+  return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
+// soft glow shadow plugin for bars/lines
+const glow={id:'glow',beforeDatasetDraw(c,a){const x=c.ctx;
+  x.shadowColor='rgba(6,214,245,.35)';x.shadowBlur=18;x.shadowOffsetY=4;},
+  afterDatasetDraw(c){c.ctx.shadowColor='transparent';c.ctx.shadowBlur=0;}};
+
+// preload competition logo/flag images, keyed by the chart label text
+const LOGO_SRC={
+  'Champions League':'logos/ucl.svg','Europa League':'logos/uel.png','Conference League':'logos/uecl.svg',
+  'Greece':'logos/greece.png','Romania':'logos/romania.svg',
+  'Cyprus 1st Div':'logos/cyprus1.png','Cyprus 2nd Div':'logos/cyprus2.svg',
+  'Omonoia':'logos/omonia.png',
+};
+const LOGO_IMG={};
+Object.entries(LOGO_SRC).forEach(([k,src])=>{const im=new Image(); im.src=src; LOGO_IMG[k]=im;});
+
+// plugin: draws a small white-tiled logo OUTSIDE the bars, in the left axis
+// margin, just left of the axis line (after the text label which sits further left).
+const axisLogos={id:'axisLogos', afterDraw(c){
+  if(c.options.indexAxis!=='y') return;
+  const x=c.ctx, yScale=c.scales.y, xScale=c.scales.x; if(!yScale||!xScale) return;
+  c.data.labels.forEach((lab,i)=>{
+    const img=LOGO_IMG[lab]; if(!img||!img.complete||!img.naturalWidth) return;
+    const y=yScale.getPixelForTick(i);
+    const w=34,h=23, bx=xScale.left-w-5, by=y-h/2; // OUTSIDE the plot, left of axis line
+    // white rounded tile
+    x.save(); x.fillStyle='rgba(255,255,255,.92)';
+    const r=4; x.beginPath();
+    x.moveTo(bx+r,by); x.arcTo(bx+w,by,bx+w,by+h,r); x.arcTo(bx+w,by+h,bx,by+h,r);
+    x.arcTo(bx,by+h,bx,by,r); x.arcTo(bx,by,bx+w,by,r); x.closePath(); x.fill();
+    // logo fitted
+    const pad=2, iw=img.naturalWidth, ih=img.naturalHeight, scale=Math.min((w-2*pad)/iw,(h-2*pad)/ih);
+    const dw=iw*scale, dh=ih*scale;
+    x.drawImage(img, bx+(w-dw)/2, by+(h-dh)/2, dw, dh);
+    x.restore();
+  });
+}};
+
+// x-axis logo plugin for line charts: draws the Cyprus logo under any tick
+// whose label is a real competition (A Div / B Div), branding those points.
+const XLABEL_LOGO={'A Div':'Cyprus 1st Div','1st Div':'Cyprus 1st Div','B Div':'Cyprus 2nd Div','2nd Div':'Cyprus 2nd Div',
+  'Omonoia':'Omonoia','UCL':'Champions League','UEL':'Europa League','UECL':'Conference League',
+  'U14':'Cyprus 2nd Div','U15':'Cyprus 2nd Div','U16':'Cyprus 2nd Div',
+  'U17':'Cyprus 2nd Div','U19':'Cyprus 2nd Div'};
+const xAxisLogos={id:'xAxisLogos', afterDraw(c){
+  if(c.options.indexAxis==='y') return; // only vertical-axis (line/column) charts
+  const ctx=c.ctx, xScale=c.scales.x; if(!xScale) return;
+  const yBottom=c.chartArea.bottom;
+  c.data.labels.forEach((lab,i)=>{
+    const key=XLABEL_LOGO[lab]; if(!key) return;
+    const img=LOGO_IMG[key]; if(!img||!img.complete||!img.naturalWidth) return;
+    const cx=xScale.getPixelForTick(i);
+    const w=40,h=27, bx=cx-w/2, by=yBottom+38; // bigger logo, more gap below the text
+    ctx.save(); ctx.fillStyle='rgba(255,255,255,.92)';
+    const r=5; ctx.beginPath();
+    ctx.moveTo(bx+r,by); ctx.arcTo(bx+w,by,bx+w,by+h,r); ctx.arcTo(bx+w,by+h,bx,by+h,r);
+    ctx.arcTo(bx,by+h,bx,by,r); ctx.arcTo(bx,by,bx+w,by,r); ctx.closePath(); ctx.fill();
+    const pad=3, scale=Math.min((w-2*pad)/img.naturalWidth,(h-2*pad)/img.naturalHeight);
+    const dw=img.naturalWidth*scale, dh=img.naturalHeight*scale;
+    ctx.drawImage(img, bx+(w-dw)/2, by+(h-dh)/2, dw, dh);
+    ctx.restore();
+  });
+}};
+
+// line value-label plugin: prints the exact value above/below each point on line charts
+const lineValues={id:'lineValues', afterDatasetsDraw(c){
+  if(c.config.type!=='line') return;
+  const ctx=c.ctx; ctx.save();
+  c.data.datasets.forEach((ds,di)=>{
+    const meta=c.getDatasetMeta(di);
+    const col=ds.borderColor||'#E8EEFF';
+    const unit=ds.unit||'';
+    const above = di===0; // first dataset labels above, second below — avoids overlap
+    meta.data.forEach((pt,i)=>{
+      const v=ds.data[i]; if(v==null) return;
+      ctx.font='800 12px JetBrains Mono, monospace';
+      ctx.fillStyle=col;
+      ctx.textAlign='center'; ctx.textBaseline=above?'bottom':'top';
+      ctx.shadowColor='rgba(8,13,26,.9)'; ctx.shadowBlur=6;
+      ctx.fillText(v+unit, pt.x, pt.y+(above?-9:9));
+      ctx.shadowBlur=0;
+    });
+  });
+  ctx.restore();
+}};
+
+// value-label plugin: prints the exact value on each bar (horizontal bars only)
+const barValues={id:'barValues', afterDatasetsDraw(c){
+  const x=c.ctx; x.save();
+  c.data.datasets.forEach((ds,di)=>{
+    const meta=c.getDatasetMeta(di);
+    const unit=ds.unit||'';
+    meta.data.forEach((bar,i)=>{
+      const v=ds.data[i]; if(v==null) return;
+      const label=v+unit;
+      x.font='700 13px JetBrains Mono, monospace';
+      x.fillStyle='#E8EEFF';
+      x.textBaseline='middle';
+      if(c.options.indexAxis==='y'){ // horizontal bar → label at bar end
+        x.textAlign='left';
+        x.shadowColor='rgba(0,0,0,.6)'; x.shadowBlur=6;
+        x.fillText(label, bar.x+8, bar.y);
+      } else if(ds.stack){ // stacked vertical bar → label centred inside the segment
+        x.textAlign='center';
+        x.shadowColor='rgba(0,0,0,.7)'; x.shadowBlur=6;
+        x.fillText(label, bar.x, (bar.y + (bar.base||bar.y))/2);
+      } else { // vertical bar → label above bar
+        x.textAlign='center';
+        x.shadowColor='rgba(0,0,0,.6)'; x.shadowBlur=6;
+        x.fillText(label, bar.x, bar.y-10);
+      }
+      x.shadowBlur=0;
+    });
+  });
+  x.restore();
+}};
+
+// count-up animation for hero numbers
+function countUp(el){
+  const target=+el.dataset.count; if(!target)return; let cur=0;
+  const step=Math.max(1,Math.ceil(target/40));
+  const t=setInterval(()=>{cur+=step; if(cur>=target){cur=target;clearInterval(t);}
+    el.textContent=cur.toLocaleString();},20);
+}
+
+// ---- Chart builders (lazy: build when slide shown) ----
+function buildGradient(){ makeChart('c_gradient',{type:'bar',
+  data:{labels:['Champions League','Europa League','Conference League','Romania','Greece','Cyprus 1st Div','Cyprus 2nd Div'],
+    datasets:[{data:[421,399,385,365,359,344,326],
+      backgroundColor:(c)=>{const l=c.dataIndex; const col=l>=5?COL.amber:(l===0?COL.cyan:'#5B6B86');
+        return grad(c.chart.ctx,c.chart.chartArea,col);},
+      borderRadius:7, borderSkipped:false}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    layout:{padding:{left:48}},
+    plugins:{legend:{display:false},title:{display:true,text:'Passes per game — Cyprus passes the fewest',color:COL.ptxt,font:{size:15,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{grid:{color:'rgba(45,58,82,.4)'},ticks:{color:COL.txt}},y:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:12},padding:48}}}},
+  plugins:[glow,barValues,axisLogos]}); }
+
+function buildStrength(){ makeChart('c_strength',{type:'bar',
+  data:{labels:['Cyprus 1st Div','Romania','Greece','Europa League','Conference League','Champions League'],
+    datasets:[{data:[9.7,10.2,10.3,11.1,11.2,12.1],
+      backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,c.dataIndex===0?COL.green:'#5B6B86'),
+      borderRadius:7,borderSkipped:false}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    layout:{padding:{left:48}},
+    plugins:{legend:{display:false},title:{display:true,text:'How hard each team presses — Cyprus presses the most',color:COL.ptxt,font:{size:14,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{grid:{color:'rgba(45,58,82,.4)'},min:8,ticks:{color:COL.txt}},y:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:12},padding:48}}}},
+  plugins:[{id:'g2',beforeDatasetDraw(c){c.ctx.shadowColor='rgba(16,185,129,.4)';c.ctx.shadowBlur=18;c.ctx.shadowOffsetY=4;},afterDatasetDraw(c){c.ctx.shadowColor='transparent';c.ctx.shadowBlur=0;}},barValues,axisLogos]}); }
+
+function buildLast(){ makeChart('c_last',{type:'bar',
+  data:{labels:['Champions League','Europa League','Conference League','Romania','Greece','Cyprus 1st Div','Cyprus 2nd Div'],
+    datasets:[{data:[18.7,16.7,16.6,15.5,15.2,14.6,13.1],
+      backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,c.dataIndex>=5?COL.red:'#5B6B86'),
+      borderRadius:7,borderSkipped:false}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    layout:{padding:{left:48}},
+    plugins:{legend:{display:false},title:{display:true,text:'Times into the box per game — Cyprus is last',color:COL.ptxt,font:{size:15,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{grid:{color:'rgba(45,58,82,.4)'},ticks:{color:COL.txt}},y:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:12},padding:48}}}},
+  plugins:[{id:'g3',beforeDatasetDraw(c){c.ctx.shadowColor='rgba(239,68,68,.4)';c.ctx.shadowBlur=18;c.ctx.shadowOffsetY=4;},afterDatasetDraw(c){c.ctx.shadowColor='transparent';c.ctx.shadowBlur=0;}},barValues,axisLogos]}); }
+
+// Reusable Part 2 standalone bar: one metric across the youth ladder vs 2nd Division.
+// All SciSports data (NO Wyscout/A Div — kept separate). Youth ages = youthCol;
+// 2nd Div (the senior reference) = seniorCol so the comparison is visible.
+
+
+// === PART 3 TORNADO — Cyprus vs opponents, all metrics ranked by % difference. ===
+// + (green) = Cyprus better; − (red) = Cyprus worse. PPDA inverted so + always = good.
+const tornadoLabels=['Pressing (PPDA)','Shots','Crosses','Long-pass acc.','Progressive passes','Passes','Duels won','Pass accuracy','Build-up passes'];
+const tornadoData=[-62,-31,-31,-19,-17,-15,-13,-8,18];
+const tornadoValues={id:'tornadoValues',afterDatasetsDraw(c){
+  const x=c.ctx,meta=c.getDatasetMeta(0); x.save();
+  meta.data.forEach((bar,i)=>{ const v=c.data.datasets[0].data[i];
+    x.font='800 13px JetBrains Mono, monospace'; x.fillStyle=v>=0?'#10B981':'#EF4444';
+    x.textBaseline='middle'; x.textAlign=v>=0?'left':'right';
+    x.shadowColor='rgba(8,13,26,.9)';x.shadowBlur=5;
+    x.fillText((v>0?'+':'')+v+'%', bar.x+(v>=0?7:-7), bar.y); x.shadowBlur=0; });
+  x.restore();
+}};
+function buildNT(){ makeChart('c_nt',{type:'bar',
+  data:{labels:tornadoLabels,
+    datasets:[{data:tornadoData,
+      backgroundColor:(c)=>{const v=c.raw; return grad(c.chart.ctx,c.chart.chartArea,v>=0?COL.green:COL.red,.95,.5);},
+      borderRadius:5,borderSkipped:false,barPercentage:0.82}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:42,left:14}},
+    plugins:{legend:{display:false},title:{display:false}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{grid:{color:'rgba(45,58,82,.35)'},min:-72,max:26,ticks:{color:COL.tmuted,callback:(v)=>v+'%'}},
+      y:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:13}}}}},
+  plugins:[tornadoValues]}); }
+
+// 3.2 — SHOTS BY AGE: the gap is SYSTEMIC — every Cyprus NT shoots less than its opponents.
+function buildNtAge(){ makeChart('c_ntAge',{type:'bar',
+  data:{labels:['U15','U16','U17','U19'],
+    datasets:[
+      {label:'Cyprus',data:[5.9,7.7,10.0,9.0],
+        backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,COL.red,.95,.5),borderRadius:7,borderSkipped:false},
+      {label:'Opponents',data:[15.8,18.2,13.5,16.5],
+        backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,'#5B6B86',.95,.5),borderRadius:7,borderSkipped:false}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},title:{display:true,text:'Shots per game by age — the gap is the same at every level',color:COL.ptxt,font:{size:14,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'800',size:14}}},y:{grid:{color:'rgba(45,58,82,.4)'},min:0,ticks:{color:COL.txt}}}},
+  plugins:[glow,barValues]}); }
+
+// PART A — Distribution: pass accuracy % across competitions (Cyprus is European-level)
+function buildDistA(){ makeChart('c_distA',{type:'bar',
+  data:{labels:['Champions League','Europa League','Conference League','Greece','Cyprus 1st Div','Romania','Cyprus 2nd Div'],
+    datasets:[{data:[85,84,82,82,82,80,78], unit:'%',
+      backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,c.dataIndex===4?COL.green:(c.dataIndex===6?COL.red:'#3B5278')),
+      borderRadius:7,borderSkipped:false}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    layout:{padding:{left:48}},
+    plugins:{legend:{display:false},title:{display:true,text:'How accurately each team passes — Cyprus 1st Div sits mid-table',color:COL.ptxt,font:{size:14,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{grid:{color:'rgba(45,58,82,.4)'},min:70,ticks:{color:COL.txt,callback:(v)=>v+'%'}},y:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:12},padding:48}}}},
+  plugins:[{id:'gd',beforeDatasetDraw(c){c.ctx.shadowColor='rgba(16,185,129,.35)';c.ctx.shadowBlur=18;c.ctx.shadowOffsetY=4;},afterDatasetDraw(c){c.ctx.shadowColor='transparent';c.ctx.shadowBlur=0;}},barValues,axisLogos]}); }
+
+// PART A — Tempo & Press: match tempo (Cyprus slowest)
+function buildTempo(){ makeChart('c_tempo',{type:'bar',
+  data:{labels:['Champions League','Europa League','Conference League','Greece','Romania','Cyprus 1st Div','Cyprus 2nd Div'],
+    datasets:[{data:[17.3,16.7,16.6,16.4,16.4,16.1,15.2],
+      backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,c.dataIndex>=5?COL.red:(c.dataIndex===0?COL.cyan:'#5B6B86')),
+      borderRadius:7,borderSkipped:false}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    layout:{padding:{left:48}},
+    plugins:{legend:{display:false},title:{display:true,text:'Match tempo — Cyprus plays the slowest',color:COL.ptxt,font:{size:15,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{grid:{color:'rgba(45,58,82,.4)'},min:14,ticks:{color:COL.txt}},y:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:12},padding:48}}}},
+  plugins:[{id:'gt',beforeDatasetDraw(c){c.ctx.shadowColor='rgba(239,68,68,.35)';c.ctx.shadowBlur=18;c.ctx.shadowOffsetY=4;},afterDatasetDraw(c){c.ctx.shadowColor='transparent';c.ctx.shadowBlur=0;}},barValues,axisLogos]}); }
+
+// 2. DEEP COMPLETIONS — youth = SciSports PER TEAM (6.23..4.42) calibrated to the Wyscout
+// scale via the 2nd Division anchor (x1.22). 2nd Div = Wyscout 5.38; 1st Div = Wyscout 5.57;
+// Omonoia (1st Div champions) = 9.89. Danger drops with age; only the champions keep it.
+function buildYouthAtt(){ makeChart('c_youthAtt',{type:'bar',
+  data:{labels:['U14','U15','U16','U17','U19','2nd Div','1st Div','Omonoia'],
+    datasets:[{data:[7.6,7.5,7.1,6.2,5.8,5.38,5.57,9.89],
+      backgroundColor:(c)=>{const i=c.dataIndex;
+        const col = i===7?COL.green : (i>=5?COL.red : COL.cyan);
+        return grad(c.chart.ctx,c.chart.chartArea,col,.95,.4);},
+      borderRadius:7,borderSkipped:false}]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{bottom:52}},
+    plugins:{legend:{display:false},title:{display:true,text:'Deep completion = a non-cross pass into the zone within 20m of the goal',color:COL.ptxt,font:{size:13,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:13}}},
+      y:{grid:{color:'rgba(45,58,82,.4)'},min:0,ticks:{color:COL.txt}}}},
+  plugins:[barValues,xAxisLogos]}); }
+
+
+// 3. POSSESSION IN OWN HALF — the 2nd Div keeps the ball safer in its own half.
+// (SciSports per-90, share of on-ball events starting in own half. Cyprus-only metric.)
+// Possession by half — STACKED bar to 100% (own half + attacking half). SciSports only.
+// Splits exactly at the halfway line. The 2nd Division plays slightly more in attack.
+function buildYouthPass(){ makeChart('c_youthPass',{type:'bar',
+  data:{labels:['U14','U15','U16','U17','U19','2nd Div'],
+    datasets:[
+      {label:'Own half',data:[60.3,60.4,60.1,59.3,61.0,59.2], unit:'%', stack:'s',
+        backgroundColor:'#2D3A52',borderRadius:6,borderSkipped:false},
+      {label:'Attacking half',data:[39.7,39.6,39.9,40.7,39.0,40.8], unit:'%', stack:'s',
+        backgroundColor:(c)=>grad(c.chart.ctx,c.chart.chartArea,COL.cyan,.95,.55),borderRadius:6,borderSkipped:false}
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{bottom:52}},
+    plugins:{legend:{display:false},title:{display:true,text:'Where we keep the ball — attacking half vs own half',color:COL.ptxt,font:{size:13,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100,easing:'easeOutQuart'},
+    scales:{x:{stacked:true,grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:13}}},
+      y:{stacked:true,grid:{color:'rgba(45,58,82,.4)'},min:0,max:100,ticks:{color:COL.txt,callback:(v)=>v+'%'}}}},
+  plugins:[barValues,xAxisLogos]}); }
+
+// 4. PASSING ACCURACY — the one real development gap; youth climb toward the 2nd Div.
+// Passing accuracy — LINE chart, the full pathway youth -> Cyprus -> Europe.
+// ALL real Wyscout data (youth league averages from the U14-U19 reports). Fully comparable.
+function buildYouthPen(){ makeChart('c_youthPen',{type:'line',
+  data:{labels:['U14','U15','U16','U17','U19','2nd Div','1st Div','UECL','UEL','UCL'],
+    datasets:[{label:'Passing accuracy',data:[66.9,69.1,71.8,72.1,76.8,78,82,82,84,85], unit:'%',
+      borderColor:COL.green, backgroundColor:'rgba(16,185,129,.12)', fill:true, tension:.35, borderWidth:4,
+      pointRadius:7, pointBackgroundColor:(c)=>{const i=c.dataIndex; return i>=7?COL.cyan:(i>=5?COL.green:COL.amber);},
+      pointBorderColor:'#0A1120', pointBorderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{bottom:52,top:10}},
+    plugins:{legend:{display:false},title:{display:true,text:'Passing accuracy climbs all the way — youth to the Champions League',color:COL.ptxt,font:{size:13,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100},
+    scales:{x:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:12}}},
+      y:{grid:{color:'rgba(45,58,82,.4)'},min:62,max:88,ticks:{color:COL.txt,callback:(v)=>v+'%'}}}},
+  plugins:[xAxisLogos,lineValues]}); }
+
+// Passes per game (VOLUME) — LINE chart, youth -> Cyprus -> Europe. ALL real Wyscout data
+// (youth league averages from the U14-U19 reports). Fully comparable, no calibration.
+function buildYouthVol(){ makeChart('c_youthVol',{type:'line',
+  data:{labels:['U14','U15','U16','U17','U19','2nd Div','1st Div','UECL','UEL','UCL'],
+    datasets:[{label:'Passes per game',data:[254,283,315,316,324,326,344,385,399,421],
+      borderColor:COL.cyan, backgroundColor:'rgba(6,214,245,.12)', fill:true, tension:.35, borderWidth:4,
+      pointRadius:7, pointBackgroundColor:(c)=>{const i=c.dataIndex; return i>=7?COL.cyan:(i>=5?COL.green:COL.amber);},
+      pointBorderColor:'#0A1120', pointBorderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,layout:{padding:{bottom:52,top:10}},
+    plugins:{legend:{display:false},title:{display:true,text:'Passes per game — a steady climb from U14 to the Champions League',color:COL.ptxt,font:{size:13,weight:'700'},padding:{bottom:14}}},
+    animation:{duration:1100},
+    scales:{x:{grid:{display:false},ticks:{color:COL.ptxt,font:{weight:'700',size:12}}},
+      y:{grid:{color:'rgba(45,58,82,.4)'},min:230,max:440,ticks:{color:COL.txt}}}},
+  plugins:[xAxisLogos,lineValues]}); }
+
+
+
+
+// fire builders + count-ups when their slide becomes active
+Reveal.on('slidechanged',e=>triggerSlide(e.currentSlide));
+Reveal.on('ready',e=>triggerSlide(e.currentSlide));
+// when a card fragment is manually revealed, fire its shimmer + entrance
+Reveal.on('fragmentshown',e=>{
+  var f=e.fragment;
+  if(f && (f.classList.contains('sgs')||f.classList.contains('cta-card'))){
+    if(!f.querySelector('.shimmer')){ var sh=document.createElement('div'); sh.className='shimmer'; f.appendChild(sh); }
+    f.classList.remove('visible'); void f.offsetWidth; f.classList.add('visible');
+  }
+});
+Reveal.on('fragmenthidden',e=>{ if(e.fragment) e.fragment.classList.remove('visible'); });
+function triggerSlide(s){
+  // hide the corner logo on the title slide and the QR slide
+  var logo=document.querySelector('.logo');
+  if(logo) logo.style.display = (s.classList.contains('title-slide')||s.classList.contains('qr-slide')) ? 'none' : '';
+  s.querySelectorAll('.hero .big[data-count]').forEach(countUp);
+  // ensure every card has a shimmer overlay (fired when its fragment is shown)
+  s.querySelectorAll('.sgs, .cta-card').forEach((card)=>{
+    if(!card.querySelector('.shimmer')){ var sh=document.createElement('div'); sh.className='shimmer'; card.appendChild(sh); }
+  });
+  // Part 1
+  if(s.querySelector('#c_strength')) buildStrength();
+  if(s.querySelector('#c_gradient')) buildGradient();
+  if(s.querySelector('#c_distA')) buildDistA();
+  if(s.querySelector('#c_last')) buildLast();
+  if(s.querySelector('#c_tempo')) buildTempo();
+  // Part 2
+  if(s.querySelector('#c_youthVol')) buildYouthVol();
+  if(s.querySelector('#c_youthPen')) buildYouthPen();
+  if(s.querySelector('#c_youthPass')) buildYouthPass();
+  if(s.querySelector('#c_youthAtt')) buildYouthAtt();
+  // Part 3
+  if(s.querySelector('#c_ntAge')) buildNtAge();
+  if(s.querySelector('#c_nt')) buildNT();
+}
+</script>
+</body>
+</html>
